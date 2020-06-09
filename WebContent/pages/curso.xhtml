@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/templates/templateSistema.xhtml">
+
+	<ui:define name="menu_superior">
+		<ui:include src="/includes/menu_superior.xhtml" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+
+		<p:dataTable var="curso" value="#{beanCursos.listaCurso}" rows="10"
+			paginator="true">
+			<f:facet name="header">
+			Tabela de Cursos da UNIRIOS
+			</f:facet>
+			<p:column headerText="Código" sortBy="#{curso.codcurso}">
+				<h:outputText value="#{curso.codcurso}" />
+			</p:column>
+
+			<p:column headerText="Nome do Curso" sortBy="#{curso.nome}">
+				<h:outputText value="#{curso.nome}" />
+			</p:column>
+			<f:facet name="footer">
+				<p:commandButton value="Novo Curso" onclick="PF('dlgNovoCurso').show();" />
+			</f:facet>
+		</p:dataTable>
+
+		<p:dialog header="Novo Curso" widgetVar="dlgNovoCurso" modal="true" closable="false"
+			 draggable="false" resizable="false" appendTo="@(body)">
+			<h:form id="formCadastro">
+				<h:panelGrid id="panelCadastro" columns="2">
+					<p:outputLabel value="Nome do Curso: " />
+					<p:inputText />
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Salvar"/>
+					<p:commandButton value="Cancelar" onclick="PF('dlgNovoCurso').hide();"/>
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+
+</ui:composition>
