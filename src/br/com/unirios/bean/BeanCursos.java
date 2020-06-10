@@ -6,9 +6,11 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import br.com.unirios.dao.CursoDAO;
 import br.com.unirios.entidades.Curso;
+import br.com.unirios.util.JSFUtil;
 
 @SuppressWarnings("serial")
 @ManagedBean
@@ -40,7 +42,49 @@ public class BeanCursos implements Serializable {
 
 	@PostConstruct
 	public void carregaDadosTabela() {
-		listaCurso= daoCurso.listar("nome");
+		try {
+			listaCurso= daoCurso.listar("nome");
+		} catch (Exception e) {
+			e.getMessage();
+		}
 	}
+	
+	public void preparaNovoCurso() {
+		try {
+			curso = new Curso();
+		} catch (Exception e) {
+			e.getMessage();
+		}
+	}
+	
+	public void salvarCurso() {
+		try {
+			daoCurso.salvar(curso);
+			listaCurso = daoCurso.listar("nome");
+			
+			JSFUtil.mensagemSucesso("Curso salvo com sucesso!");
+		} catch (Exception e) {
+			JSFUtil.mensagemErro("ERRO: " + e.getMessage());
+		}
+	}
+	
+	public void alterarCurso(ActionEvent evento) {
+		curso = (Curso) evento.getComponent().getAttributes().get("cursoSelecionado");
+	}
+	
+	
+	public void removerCurso(ActionEvent evento) {
+		try {
+			curso = (Curso) evento.getComponent().getAttributes().get("cursoSelecionado");
+			daoCurso.remover(curso.getCodcurso());
+			listaCurso = daoCurso.listar("nome");
+			
+			JSFUtil.mensagemSucesso("Curso excluído com sucesso!");
+		} catch (Exception e) {
+			JSFUtil.mensagemErro("ERRO: " + e.getMessage());
+		}
+	}
+	
+	
 
 }
