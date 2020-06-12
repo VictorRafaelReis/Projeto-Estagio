@@ -6,45 +6,41 @@ import java.util.List;
 
 
 /**
- * The persistent class for the coordenador database table.
+ * The persistent class for the administrador database table.
  * 
  */
 @Entity
-@NamedQuery(name="Coordenador.findAll", query="SELECT c FROM Coordenador c")
-public class Coordenador implements Serializable {
+@NamedQuery(name="Administrador.findAll", query="SELECT a FROM Administrador a")
+public class Administrador implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	private Integer codcoord;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer codadm;
 
 	private String email;
 
-	private Integer matricula;
+	private String matricula;
 
 	private String nome;
 
 	private String senha;
 
-	private Integer telefone;
-
-	//bi-directional many-to-one association to Curso
-	@ManyToOne
-	@JoinColumn(name="codcurso")
-	private Curso curso;
+	private String telefone;
 
 	//bi-directional many-to-one association to Problematica
-	@OneToMany(mappedBy="coordenador")
+	@OneToMany(mappedBy="administrador")
 	private List<Problematica> problematicas;
 
-	public Coordenador() {
+	public Administrador() {
 	}
 
-	public Integer getCodcoord() {
-		return this.codcoord;
+	public Integer getCodadm() {
+		return this.codadm;
 	}
 
-	public void setCodcoord(Integer codcoord) {
-		this.codcoord = codcoord;
+	public void setCodadm(Integer codadm) {
+		this.codadm = codadm;
 	}
 
 	public String getEmail() {
@@ -55,11 +51,11 @@ public class Coordenador implements Serializable {
 		this.email = email;
 	}
 
-	public Integer getMatricula() {
+	public String getMatricula() {
 		return this.matricula;
 	}
 
-	public void setMatricula(Integer matricula) {
+	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 
@@ -79,20 +75,12 @@ public class Coordenador implements Serializable {
 		this.senha = senha;
 	}
 
-	public Integer getTelefone() {
+	public String getTelefone() {
 		return this.telefone;
 	}
 
-	public void setTelefone(Integer telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
-	}
-
-	public Curso getCurso() {
-		return this.curso;
-	}
-
-	public void setCurso(Curso curso) {
-		this.curso = curso;
 	}
 
 	public List<Problematica> getProblematicas() {
@@ -105,14 +93,14 @@ public class Coordenador implements Serializable {
 
 	public Problematica addProblematica(Problematica problematica) {
 		getProblematicas().add(problematica);
-		problematica.setCoordenador(this);
+		problematica.setAdministrador(this);
 
 		return problematica;
 	}
 
 	public Problematica removeProblematica(Problematica problematica) {
 		getProblematicas().remove(problematica);
-		problematica.setCoordenador(null);
+		problematica.setAdministrador(null);
 
 		return problematica;
 	}

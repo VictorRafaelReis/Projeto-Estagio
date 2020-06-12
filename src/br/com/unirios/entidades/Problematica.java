@@ -2,6 +2,7 @@ package br.com.unirios.entidades;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -16,9 +17,11 @@ public class Problematica implements Serializable {
 	@Id
 	private Integer codproblematica;
 
+	private String autorizacao;
+
 	private String descfunc;
 
-	private String email;
+	private String descricao;
 
 	private String estagio;
 
@@ -28,24 +31,21 @@ public class Problematica implements Serializable {
 
 	private String resolucaoti;
 
-	private String resumo;
+	private String statusandamento;
 
-	private Integer telefone;
-
-	//bi-directional many-to-one association to Aluno
+	//bi-directional many-to-one association to Administrador
 	@ManyToOne
-	@JoinColumn(name="codaluno")
-	private Aluno aluno;
+	@JoinColumn(name="codadm")
+	private Administrador administrador;
 
-	//bi-directional many-to-one association to Coordenador
+	//bi-directional many-to-one association to Proponente
 	@ManyToOne
-	@JoinColumn(name="codcoord")
-	private Coordenador coordenador;
+	@JoinColumn(name="codproponente")
+	private Proponente proponente;
 
-	//bi-directional many-to-one association to Curso
-	@ManyToOne
-	@JoinColumn(name="codcurso")
-	private Curso curso;
+	//bi-directional many-to-one association to Registroproblematica
+	@OneToMany(mappedBy="problematica")
+	private List<Registroproblematica> registroproblematicas;
 
 	public Problematica() {
 	}
@@ -58,6 +58,14 @@ public class Problematica implements Serializable {
 		this.codproblematica = codproblematica;
 	}
 
+	public String getAutorizacao() {
+		return this.autorizacao;
+	}
+
+	public void setAutorizacao(String autorizacao) {
+		this.autorizacao = autorizacao;
+	}
+
 	public String getDescfunc() {
 		return this.descfunc;
 	}
@@ -66,12 +74,12 @@ public class Problematica implements Serializable {
 		this.descfunc = descfunc;
 	}
 
-	public String getEmail() {
-		return this.email;
+	public String getDescricao() {
+		return this.descricao;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public String getEstagio() {
@@ -106,44 +114,50 @@ public class Problematica implements Serializable {
 		this.resolucaoti = resolucaoti;
 	}
 
-	public String getResumo() {
-		return this.resumo;
+	public String getStatusandamento() {
+		return this.statusandamento;
 	}
 
-	public void setResumo(String resumo) {
-		this.resumo = resumo;
+	public void setStatusandamento(String statusandamento) {
+		this.statusandamento = statusandamento;
 	}
 
-	public Integer getTelefone() {
-		return this.telefone;
+	public Administrador getAdministrador() {
+		return this.administrador;
 	}
 
-	public void setTelefone(Integer telefone) {
-		this.telefone = telefone;
+	public void setAdministrador(Administrador administrador) {
+		this.administrador = administrador;
 	}
 
-	public Aluno getAluno() {
-		return this.aluno;
+	public Proponente getProponente() {
+		return this.proponente;
 	}
 
-	public void setAluno(Aluno aluno) {
-		this.aluno = aluno;
+	public void setProponente(Proponente proponente) {
+		this.proponente = proponente;
 	}
 
-	public Coordenador getCoordenador() {
-		return this.coordenador;
+	public List<Registroproblematica> getRegistroproblematicas() {
+		return this.registroproblematicas;
 	}
 
-	public void setCoordenador(Coordenador coordenador) {
-		this.coordenador = coordenador;
+	public void setRegistroproblematicas(List<Registroproblematica> registroproblematicas) {
+		this.registroproblematicas = registroproblematicas;
 	}
 
-	public Curso getCurso() {
-		return this.curso;
+	public Registroproblematica addRegistroproblematica(Registroproblematica registroproblematica) {
+		getRegistroproblematicas().add(registroproblematica);
+		registroproblematica.setProblematica(this);
+
+		return registroproblematica;
 	}
 
-	public void setCurso(Curso curso) {
-		this.curso = curso;
+	public Registroproblematica removeRegistroproblematica(Registroproblematica registroproblematica) {
+		getRegistroproblematicas().remove(registroproblematica);
+		registroproblematica.setProblematica(null);
+
+		return registroproblematica;
 	}
 
 }

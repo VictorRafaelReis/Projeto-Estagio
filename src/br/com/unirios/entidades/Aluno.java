@@ -17,24 +17,21 @@ public class Aluno implements Serializable {
 	@Id
 	private Integer codaluno;
 
+	private String curso;
+
 	private String email;
 
-	private Integer matricula;
+	private String matricula;
 
 	private String nome;
 
 	private String senha;
 
-	private Integer telefone;
+	private String telefone;
 
-	//bi-directional many-to-one association to Curso
-	@ManyToOne
-	@JoinColumn(name="codcurso")
-	private Curso curso;
-
-	//bi-directional many-to-one association to Problematica
+	//bi-directional many-to-one association to Registroproblematica
 	@OneToMany(mappedBy="aluno")
-	private List<Problematica> problematicas;
+	private List<Registroproblematica> registroproblematicas;
 
 	public Aluno() {
 	}
@@ -47,6 +44,14 @@ public class Aluno implements Serializable {
 		this.codaluno = codaluno;
 	}
 
+	public String getCurso() {
+		return this.curso;
+	}
+
+	public void setCurso(String curso) {
+		this.curso = curso;
+	}
+
 	public String getEmail() {
 		return this.email;
 	}
@@ -55,11 +60,11 @@ public class Aluno implements Serializable {
 		this.email = email;
 	}
 
-	public Integer getMatricula() {
+	public String getMatricula() {
 		return this.matricula;
 	}
 
-	public void setMatricula(Integer matricula) {
+	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 
@@ -79,42 +84,34 @@ public class Aluno implements Serializable {
 		this.senha = senha;
 	}
 
-	public Integer getTelefone() {
+	public String getTelefone() {
 		return this.telefone;
 	}
 
-	public void setTelefone(Integer telefone) {
+	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
 
-	public Curso getCurso() {
-		return this.curso;
+	public List<Registroproblematica> getRegistroproblematicas() {
+		return this.registroproblematicas;
 	}
 
-	public void setCurso(Curso curso) {
-		this.curso = curso;
+	public void setRegistroproblematicas(List<Registroproblematica> registroproblematicas) {
+		this.registroproblematicas = registroproblematicas;
 	}
 
-	public List<Problematica> getProblematicas() {
-		return this.problematicas;
+	public Registroproblematica addRegistroproblematica(Registroproblematica registroproblematica) {
+		getRegistroproblematicas().add(registroproblematica);
+		registroproblematica.setAluno(this);
+
+		return registroproblematica;
 	}
 
-	public void setProblematicas(List<Problematica> problematicas) {
-		this.problematicas = problematicas;
-	}
+	public Registroproblematica removeRegistroproblematica(Registroproblematica registroproblematica) {
+		getRegistroproblematicas().remove(registroproblematica);
+		registroproblematica.setAluno(null);
 
-	public Problematica addProblematica(Problematica problematica) {
-		getProblematicas().add(problematica);
-		problematica.setAluno(this);
-
-		return problematica;
-	}
-
-	public Problematica removeProblematica(Problematica problematica) {
-		getProblematicas().remove(problematica);
-		problematica.setAluno(null);
-
-		return problematica;
+		return registroproblematica;
 	}
 
 }
